@@ -28,7 +28,7 @@
 #
 # Copyright (c) 2021 ETH Zurich, Nikita Rudin
 
-from legged_gym.envs import AnymalCRoughCfg, AnymalCRoughCfgPPO, AnymalCRoughCfgSAC
+from legged_gym.envs import AnymalCRoughCfg, AnymalCRoughCfgPPO, AnymalCRoughCfgSAC, AnymalCRoughCfgREDQ
 
 class AnymalCFlatCfg( AnymalCRoughCfg ):
     class env( AnymalCRoughCfg.env ):
@@ -83,6 +83,21 @@ class AnymalCFlatCfgSAC( AnymalCRoughCfgSAC ):
         target_entropy = 0.01
 
     class runner ( AnymalCRoughCfgSAC.runner):
+        run_name = ''
+        experiment_name = 'flat_anymal_c'
+        load_run = -1
+        max_iterations = 300
+
+class AnymalCFlatCfgREDQ( AnymalCRoughCfgREDQ ):
+    class policy( AnymalCRoughCfgREDQ.policy ):
+        actor_hidden_dims = [128, 64, 32]
+        critic_hidden_dims = [128, 64, 32]
+        activation = 'elu' # can be elu, relu, selu, crelu, lrelu, tanh, sigmoid
+
+    class algorithm( AnymalCRoughCfgREDQ.algorithm):
+        target_entropy = 0.01
+
+    class runner ( AnymalCRoughCfgREDQ.runner):
         run_name = ''
         experiment_name = 'flat_anymal_c'
         load_run = -1

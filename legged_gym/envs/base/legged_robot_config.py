@@ -258,8 +258,8 @@ class LeggedRobotCfgSAC(BaseConfig):
     
     class algorithm:
         # training params
-        action_max: float = 100.0
-        action_min: float = -100.0
+        action_max: float = 10.0 # unused
+        action_min: float = -10.0 # unused
         actor_lr: float = 1e-4
         actor_noise_std: float = 1.0
         alpha: float = 0.2
@@ -272,10 +272,64 @@ class LeggedRobotCfgSAC(BaseConfig):
         storage_initial_size: int = 0
         storage_size: int = 100000
         target_entropy: float = 0.01
+        num_mini_batches = 4
+        batch_size = 10000
 
     class runner:
         policy_class_name = 'ActorCritic'
         algorithm_class_name = 'SAC'
+        num_steps_per_env = 24 # per iteration
+        max_iterations = 1500 # number of policy updates
+
+        # logging
+        save_interval = 50 # check for potential saves every this many iterations
+        experiment_name = 'test'
+        run_name = ''
+        # load and resume
+        resume = False
+        load_run = -1 # -1 = last run
+        checkpoint = -1 # -1 = last saved model
+        resume_path = None # updated from load_run and chkpt
+
+class LeggedRobotCfgREDQ(BaseConfig):
+    seed = 1
+    runner_class_name = 'LeggedGymRunner'
+    class policy:
+        init_noise_std = 1.0
+        actor_hidden_dims = [512, 256, 128]
+        critic_hidden_dims = [512, 256, 128]
+        activation = 'elu' # can be elu, relu, selu, crelu, lrelu, tanh, sigmoid
+        # only for 'ActorCriticRecurrent':
+        # rnn_type = 'lstm'
+        # rnn_hidden_size = 512
+        # rnn_num_layers = 1
+    
+    class algorithm:
+        # training params
+        action_max: float = 10.0 # unused
+        action_min: float = -10.0 # unused
+        actor_lr: float = 1e-4
+        actor_noise_std: float = 1.0
+        alpha: float = 0.2
+        alpha_lr: float = 1e-3
+        chimera: bool = True
+        critic_lr: float = 1e-3
+        gradient_clip: float = 1.0
+        log_std_max: float = 4.0
+        log_std_min: float = -20.0
+        storage_initial_size: int = 0
+        storage_size: int = 100000
+        target_entropy: float = 0.01
+        num_mini_batches = 4
+        batch_size = 10000
+        num_Q: int = 10
+        num_sample: int = 2
+        q_target_mode: str = "min"
+        policy_update_delay: int = 20
+
+    class runner:
+        policy_class_name = 'ActorCritic'
+        algorithm_class_name = 'REDQ'
         num_steps_per_env = 24 # per iteration
         max_iterations = 1500 # number of policy updates
 

@@ -28,7 +28,7 @@
 #
 # Copyright (c) 2021 ETH Zurich, Nikita Rudin
 
-from legged_gym.envs.base.legged_robot_config import LeggedRobotCfg, LeggedRobotCfgPPO, LeggedRobotCfgSAC
+from legged_gym.envs.base.legged_robot_config import LeggedRobotCfg, LeggedRobotCfgPPO, LeggedRobotCfgSAC, LeggedRobotCfgREDQ
 
 class AnymalCRoughCfg( LeggedRobotCfg ):
     class env( LeggedRobotCfg.env ):
@@ -95,6 +95,12 @@ class AnymalCRoughCfgPPO( LeggedRobotCfgPPO ):
 
 class AnymalCRoughCfgSAC( LeggedRobotCfgSAC ):
     class runner( LeggedRobotCfgSAC.runner ):
+        run_name = ''
+        experiment_name = 'rough_anymal_c'
+        load_run = -1
+
+class AnymalCRoughCfgREDQ( LeggedRobotCfgREDQ ):
+    class runner( LeggedRobotCfgREDQ.runner ):
         run_name = ''
         experiment_name = 'rough_anymal_c'
         load_run = -1
