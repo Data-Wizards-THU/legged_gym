@@ -215,10 +215,10 @@ class LeggedRobotCfgPPO(BaseConfig):
     class algorithm:
         # training params
         value_loss_coef = 1.0
-        use_clipped_value_loss = True
+        use_clipped_value_loss = True # unused
         clip_param = 0.2
         entropy_coef = 0.01
-        num_learning_epochs = 5
+        num_learning_epochs = 5 # unused
         num_mini_batches = 4 # mini batch size = num_envs*nsteps / nminibatches
         learning_rate = 1.e-3 #5.e-4
         schedule = 'adaptive' # could be adaptive, fixed
@@ -230,6 +230,52 @@ class LeggedRobotCfgPPO(BaseConfig):
     class runner:
         policy_class_name = 'ActorCritic'
         algorithm_class_name = 'PPO'
+        num_steps_per_env = 24 # per iteration
+        max_iterations = 1500 # number of policy updates
+
+        # logging
+        save_interval = 50 # check for potential saves every this many iterations
+        experiment_name = 'test'
+        run_name = ''
+        # load and resume
+        resume = False
+        load_run = -1 # -1 = last run
+        checkpoint = -1 # -1 = last saved model
+        resume_path = None # updated from load_run and chkpt
+
+class LeggedRobotCfgSAC(BaseConfig):
+    seed = 1
+    runner_class_name = 'LeggedGymRunner'
+    class policy:
+        init_noise_std = 1.0
+        actor_hidden_dims = [512, 256, 128]
+        critic_hidden_dims = [512, 256, 128]
+        activation = 'elu' # can be elu, relu, selu, crelu, lrelu, tanh, sigmoid
+        # only for 'ActorCriticRecurrent':
+        # rnn_type = 'lstm'
+        # rnn_hidden_size = 512
+        # rnn_num_layers = 1
+    
+    class algorithm:
+        # training params
+        action_max: float = 100.0
+        action_min: float = -100.0
+        actor_lr: float = 1e-4
+        actor_noise_std: float = 1.0
+        alpha: float = 0.2
+        alpha_lr: float = 1e-3
+        chimera: bool = True
+        critic_lr: float = 1e-3
+        gradient_clip: float = 1.0
+        log_std_max: float = 4.0
+        log_std_min: float = -20.0
+        storage_initial_size: int = 0
+        storage_size: int = 100000
+        target_entropy: float = 0.01
+
+    class runner:
+        policy_class_name = 'ActorCritic'
+        algorithm_class_name = 'SAC'
         num_steps_per_env = 24 # per iteration
         max_iterations = 1500 # number of policy updates
 
