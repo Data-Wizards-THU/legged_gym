@@ -28,7 +28,7 @@
 #
 # Copyright (c) 2021 ETH Zurich, Nikita Rudin
 
-from legged_gym.envs.base.legged_robot_config import LeggedRobotCfg, LeggedRobotCfgPPO
+from legged_gym.envs.base.legged_robot_config import LeggedRobotCfg, LeggedRobotCfgPPO, LeggedRobotCfgPPG
 
 class A1RoughCfg( LeggedRobotCfg ):
     class init_state( LeggedRobotCfg.init_state ):
@@ -82,4 +82,10 @@ class A1RoughCfgPPO( LeggedRobotCfgPPO ):
         run_name = ''
         experiment_name = 'rough_a1'
 
-  
+class A1RoughCfgPPG( LeggedRobotCfgPPG ):
+    class algorithm( LeggedRobotCfgPPG.algorithm ):
+        entropy_coef = 0.01
+        n_pi = 16
+    class runner( LeggedRobotCfgPPG.runner ):
+        run_name = ''
+        experiment_name = 'rough_a1'

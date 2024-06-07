@@ -103,7 +103,7 @@ def train(args):
     run_name = alg_name + "-" + time.ctime()
     wandb_learn_config = dict(
         config=config,
-        entity=WANDB_ENTITY,
+        # entity=WANDB_ENTITY,
         group=f"{task_name}_{alg_name}",
         project="legged_gym",
         tags=[alg_name, task_name, "train"],
