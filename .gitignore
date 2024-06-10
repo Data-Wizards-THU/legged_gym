@@ -58,6 +58,7 @@ runs
 *.egg-info
 __pycache__
 
-run.sh
+tune.sh
 wandb_config.py
 wandb
+*.db
